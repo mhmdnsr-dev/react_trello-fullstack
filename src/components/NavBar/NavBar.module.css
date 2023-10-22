@@ -1,0 +1,13 @@
+.logo {
+  max-width: 40px;
+}
+
+.active {
+  color: rgb(45, 117, 181) !important;
+  font-weight: bold !important;
+}
+
+.drop-down {
+  right: 0 !important;
+  left: unset !important;
+}

@@ -1,9 +1,6 @@
 const Footer = () => {
   return (
-    <footer
-      className="text-center bottom-0 position-absolute w-100 rounded-3 bg-secondary-subtle"
-      // style={{ backgroundColor: '#e1e1e1' }}
-    >
+    <footer className="bottom-0 position-absolute w-100 rounded-3 bg-secondary-subtle">
       <div className=" d-flex justify-content-between p-2">
         <div className="text-center text-dark p-3">
           © {new Date().getFullYear()} Copyright: team-4

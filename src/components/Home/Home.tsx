@@ -1,36 +1,22 @@
-// import { useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { ApiResponse } from '../../interfaces/ApiResponse';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import TaskList from '../TaskList/TaskList';
-import { Task } from '../../interfaces/Task';
 import Alert from '../UI/Alert/Alert';
-
-const DUMMY_TASK: Task[] = [
-  {
-    _id: 'kdkdk',
-    title: 'task 1',
-    status: 'To Do',
-    deadline: '2023-05-05',
-    assignFrom: {
-      email: 'dd@dd.com',
-      name: ' dd',
-    },
-    assignTo: {
-      email: 'dd@dd.com',
-      name: ' ddf',
-    },
-  },
-];
+import { authContext } from '../../context/authContext';
 
 const Home = () => {
-  // const loaderData = useLoaderData() as ApiResponse;
-  const [tasks, setTasks] = useState(DUMMY_TASK);
+  const auth = useContext(authContext);
+  const loaderData = useLoaderData() as ApiResponse;
+  const [tasks, setTasks] = useState(loaderData.body?.tasks);
 
   const { data, error } = useQuery({
     queryKey: ['usre-data'],
     queryFn: () =>
-      fetch('https://todo-api-dcld.onrender.com/api/user/get-data')
+      fetch('https://todo-api-dcld.onrender.com/api/user/get-data', {
+        credentials: 'include',
+      })
         .then(res => {
           if (res.status === 500) throw Error(res.statusText);
           return res.json();
@@ -48,14 +34,17 @@ const Home = () => {
   console.log('error', error?.message);
 
   useEffect(() => {
-    console.log(data);
-    data && setTasks(data.body!.tasks!);
+    console.log('data in useeffect', data);
+    auth.setWhoiam({
+      isAuthenticated: true,
+    });
+    data && setTasks(data.body?.tasks);
   }, [data]);
 
   return (
     <>
-      {error && <Alert message={error.message} />}
       {!error && <TaskList tasks={tasks!} />}
+      {error && <Alert message={error.message} />}
     </>
   );
 };

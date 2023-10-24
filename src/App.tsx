@@ -7,12 +7,16 @@ import SigIn from './components/SigIn/SigIn';
 import { queryClient } from './utils/http';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { loader as getUserDataLoader } from './components/Home/loader';
-// import {querCl}
+import { authContext } from './context/authContext';
+import { useState } from 'react';
+
+import { action as logouAction } from './components/NavBar/logoutAction';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    action: logouAction,
     children: [
       {
         index: true,
@@ -40,9 +44,15 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const [whoiam, setWhoiam] = useState({
+    isAuthenticated: false,
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />;
+      <authContext.Provider value={{ whoiam, setWhoiam }}>
+        <RouterProvider router={router} />
+      </authContext.Provider>
     </QueryClientProvider>
   );
 };

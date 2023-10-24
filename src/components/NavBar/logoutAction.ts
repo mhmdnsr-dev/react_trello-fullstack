@@ -9,5 +9,13 @@ export async function action() {
     }
   );
 
-  if (res.ok) return redirect('/signin');
+  if (res.ok) {
+    localStorage.setItem(
+      'whoiam',
+      JSON.stringify({
+        isAuthenticated: false,
+      })
+    );
+    return redirect('/signin');
+  }
 }

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import logo from '../../assets/images/logo-96.png';
 import styled from './NavBar.module.css';
 import { Form, Link, NavLink } from 'react-router-dom';
@@ -8,6 +8,13 @@ const NavBar = () => {
   const {
     whoiam: { isAuthenticated },
   } = useContext(authContext);
+
+  const [isAuth, setIsAuth] = useState(isAuthenticated);
+
+  useEffect(() => {
+    const whoiam = JSON.parse(localStorage.getItem('whoiam')!);
+    if (whoiam?.isAuthenticated) setIsAuth(true);
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg bg-secondary-subtle">
@@ -27,7 +34,7 @@ const NavBar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            {!isAuthenticated && (
+            {!isAuth && (
               <>
                 <li className="nav-item">
                   <NavLink
@@ -49,7 +56,7 @@ const NavBar = () => {
                 </li>
               </>
             )}
-            {isAuthenticated && (
+            {isAuth && (
               <li className="nav-item dropdown me-4">
                 <a
                   className="nav-link dropdown-toggle"

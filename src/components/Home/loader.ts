@@ -13,8 +13,17 @@ export async function loader() {
       retry: 0,
     });
 
-    if (res.status === 'fail') return redirect('/signin');
+    if (res.status === 'fail') {
+      localStorage.removeItem('whoiam');
+      return redirect('/signin');
+    }
 
+    localStorage.setItem(
+      'whoiam',
+      JSON.stringify({
+        isAuthenticated: true,
+      })
+    );
     return res;
   } catch (error) {
     return redirect('/signin');

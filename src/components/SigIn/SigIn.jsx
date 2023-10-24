@@ -14,15 +14,21 @@ const SigIn = () => {
 
   async function SignIn(values) {
     setisloading(true)
-    await axios.post(`https://sara7aiti.onrender.com/api/v1/user`, values).then((data) => {
+    await axios.post(`https://todo-api-dcld.onrender.com/api/user/login`, values).then((data) => {
+      console.log('Registration successful', data.data);
       if (data.data.message == "Added") {
         setisloading(false)
-        navigate("/login")
       }
-    }).catch((err) => {
-      setApiError(err.response.data.error)
-      setisloading(false)
-    });
+    }).catch( (error) => {
+      if (error.response) {
+        console.log('Request failed with status code', error.response.status);
+        console.log('Response data', error.response.data);
+      } else if (error.request) {
+        console.log('Request was made but no response was received');
+      } else {
+        console.log('Error in making the request', error.message);
+      }
+    })
 
   }
 
@@ -54,11 +60,11 @@ const SigIn = () => {
 
   return (
     <div className='w-50 mx-auto my-5'>
-      <h3 className='text-center'>Sign In</h3>
-      <form action="" onSubmit={formik.handleSubmit}>
+      <h3 className='text-primary text-center'>Sign In</h3>
+      <form action="" className='mb-3 w-50 mx-auto border border-primary p-3 border-3 rounded' onSubmit={formik.handleSubmit}>
 
         <div className="form-group mb-3">
-          <label htmlFor="email">email</label>
+          <label htmlFor="email" className='form-label text-primary  float-start fs-4'>email</label>
           <input type="text" id='email' className='form-control' onBlur={formik.handleBlur} name='email' value={formik.values.email} onChange={formik.handleChange} />
           {formik.errors.email && formik.touched.email ? <div className="alert alert-danger">
             {formik.errors.email}</div> : ""}
@@ -66,7 +72,7 @@ const SigIn = () => {
 
 
         <div className="form-group mb-3">
-          <label htmlFor="password">password</label>
+          <label htmlFor="password" className='form-label text-primary  float-start fs-4'>password</label>
           <input type="password" id='password' className='form-control' onBlur={formik.handleBlur} name='password' value={formik.values.password} onChange={formik.handleChange} />
           {formik.errors.password && formik.touched.password ?
             <div className="alert alert-danger">

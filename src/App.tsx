@@ -20,14 +20,14 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-       {
-         path: 'register',
+      {
+        path: 'register',
         element: <RegistrationForm />,
       },
-       {
-         path: 'signin',
+      {
+        path: 'signin',
         element: <SigIn />,
-       },
+      },
       // {
       //   path:'profile',
       //   element:<Profile/>
@@ -42,18 +42,18 @@ const router = createBrowserRouter([
 
 const App = () => {
 
-useEffect(()=>{
-  function start(){
-  gapi.client.init({
-    clientId:clientId,
-    scope:""
-  })
-}
-gapi.load('client:auth2',start)
-}
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: ""
+      })
+    }
+    gapi.load('client:auth2', start)
+  }
 
 
-)
+  )
 
 
 

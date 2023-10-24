@@ -1,10 +1,10 @@
 import axios from 'axios';
-import  { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import GoogleLogin from 'react-google-login';
-import  GoogleLogout  from "react-google-login";
+import GoogleLogout from "react-google-login";
 
 const clientId = "520986187464-a6i4es7qhqqv2b36hulluc99i855cgag.apps.googleusercontent.com";
 
@@ -21,7 +21,7 @@ const SigIn = () => {
     await axios.post(`https://todo-api-dcld.onrender.com/api/user/login`, values).then((data) => {
       console.log('Registration successful', data.data);
       navigate("/");
-    }).catch( (error) => {
+    }).catch((error) => {
       if (error.response) {
         console.log('Request failed with status code', error.response.status);
         console.log('Response data', error.response.data);
@@ -53,18 +53,19 @@ const SigIn = () => {
 
   const onSuccess = (res) => {
     console.log("Login is successful", res.profileObj);
-    navigate("/");
+    navigate("/")
+
   };
-const   onFailure =(res)=>{
-  console.log("Login is failed",res)
-}
-const onsuccess =(res)=>{
-  console.log("Login out sucess",res.profileObj)
-  navigate("/signin");
-}
-const   onfailure =(res)=>{
-  console.log("Login out failed",res)
-}
+  const onFailure = (res) => {
+    console.log("Login is failed", res)
+  }
+  const onsuccess = (res) => {
+    console.log("Login out sucess", res.profileObj)
+    navigate("/signin");
+  }
+  const onfailure = (res) => {
+    console.log("Login out failed", res)
+  }
 
 
 
@@ -95,30 +96,30 @@ const   onfailure =(res)=>{
 
         <div className='d-flex'>
           <button type='submit' className='btn btn-default-outline btn-light d-block mx-auto mx-auto border border-primary '>
-            {isloading? <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>:<><i className='far fa-edit text-primary me-1'></i><span className='text-primary'>signin</span></>}
-            </button>
+            {isloading ? <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i> : <><i className='far fa-edit text-primary me-1'></i><span className='text-primary'>signin</span></>}
+          </button>
 
-<div id='signInButton'className='me-4'>
-          <GoogleLogin
-          clientId={clientId}
-          buttonText='signIn'
-          onSuccess={onSuccess}
-          onFailure={onFailure}
-          cookiePolicy='single_host_origin'
-          isSignedIn={true}
-          />
-        </div>
-        <div id='signOutButton'>
-          <GoogleLogout
-        onSuccess={onsuccess}
-          clientId={clientId}
-          buttonText='logout'
-          onFailure={onfailure}
-          />
-        </div>
+          <div id='signInButton' className='me-4'>
+            <GoogleLogin
+              clientId={clientId}
+              buttonText='signIn'
+              onSuccess={onSuccess}
+              onFailure={onFailure}
+              cookiePolicy='single_host_origin'
+              isSignedIn={true}
+            />
+          </div>
+          <div id='signOutButton'>
+            <GoogleLogout
+              onSuccess={onsuccess}
+              clientId={clientId}
+              buttonText='logout'
+              onFailure={onfailure}
+            />
+          </div>
 
         </div>
-        
+
 
       </form>
     </div>

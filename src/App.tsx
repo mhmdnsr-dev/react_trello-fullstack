@@ -2,6 +2,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import NotFound from './components/NotFound/NotFound';
 import Home from './components/Home/Home';
+import { RegistrationForm } from './components/Register/Register';
+import SigIn from './components/SigIn/SigIn';
 
 const router = createBrowserRouter([
   {
@@ -12,14 +14,14 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-      // {
-      //   path: 'register',
-      //   element: <Register />,
-      // },
-      // {
-      //   path: 'signin',
-      //   element: <Signin />,
-      // },
+       {
+         path: 'register',
+        element: <RegistrationForm />,
+      },
+       {
+         path: 'signin',
+        element: <SigIn />,
+       },
       // {
       //   path:'profile',
       //   element:<Profile/>

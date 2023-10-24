@@ -3,6 +3,10 @@ import  { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
+import GoogleLogin from 'react-google-login';
+import  GoogleLogout  from "react-google-login";
+
+const clientId = "520986187464-a6i4es7qhqqv2b36hulluc99i855cgag.apps.googleusercontent.com";
 
 const SigIn = () => {
 
@@ -16,9 +20,7 @@ const SigIn = () => {
     setisloading(true)
     await axios.post(`https://todo-api-dcld.onrender.com/api/user/login`, values).then((data) => {
       console.log('Registration successful', data.data);
-      if (data.data.message == "Added") {
-        setisloading(false)
-      }
+      navigate("/");
     }).catch( (error) => {
       if (error.response) {
         console.log('Request failed with status code', error.response.status);
@@ -49,9 +51,20 @@ const SigIn = () => {
   })
 
 
-
-
-
+  const onSuccess = (res) => {
+    console.log("Login is successful", res.profileObj);
+    navigate("/");
+  };
+const   onFailure =(res)=>{
+  console.log("Login is failed",res)
+}
+const onsuccess =(res)=>{
+  console.log("Login out sucess",res.profileObj)
+  navigate("/signin");
+}
+const   onfailure =(res)=>{
+  console.log("Login out failed",res)
+}
 
 
 
@@ -59,7 +72,7 @@ const SigIn = () => {
 
 
   return (
-    <div className='w-50 mx-auto my-5'>
+    <div className='w-75 mx-auto my-5'>
       <h3 className='text-primary text-center'>Sign In</h3>
       <form action="" className='mb-3 w-50 mx-auto border border-primary p-3 border-3 rounded' onSubmit={formik.handleSubmit}>
 
@@ -80,11 +93,33 @@ const SigIn = () => {
             </div> : ""}
         </div>
 
-        <div>
+        <div className='d-flex'>
           <button type='submit' className='btn btn-default-outline btn-light d-block mx-auto mx-auto border border-primary '>
-            {isloading? <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>:<><i className='far fa-edit '></i>Register</>}
+            {isloading? <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>:<><i className='far fa-edit text-primary me-1'></i><span className='text-primary'>signin</span></>}
             </button>
+
+<div id='signInButton'className='me-4'>
+          <GoogleLogin
+          clientId={clientId}
+          buttonText='signIn'
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+          cookiePolicy='single_host_origin'
+          isSignedIn={true}
+          />
         </div>
+        <div id='signOutButton'>
+          <GoogleLogout
+        onSuccess={onsuccess}
+          clientId={clientId}
+          buttonText='logout'
+          onFailure={onfailure}
+          />
+        </div>
+
+        </div>
+        
+
       </form>
     </div>
   )

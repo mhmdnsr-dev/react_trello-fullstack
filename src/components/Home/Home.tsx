@@ -1,15 +1,21 @@
 import { useLoaderData } from 'react-router-dom';
 import { ApiResponse } from '../../interfaces/ApiResponse';
 import { useQuery } from '@tanstack/react-query';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import TaskList from '../TaskList/TaskList';
 import Alert from '../UI/Alert/Alert';
 import { authContext } from '../../context/authContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTasks } from '../../redux/tasksSlice';
+import { Task } from '../../interfaces/Task';
 
 const Home = () => {
+  console.log('render');
   const auth = useContext(authContext);
+  const dispatch = useDispatch();
   const loaderData = useLoaderData() as ApiResponse;
-  const [tasks, setTasks] = useState(loaderData.body?.tasks);
+
+  const tasks = useSelector((state: { tasks: Task[] }) => state.tasks);
 
   const { data, error } = useQuery({
     queryKey: ['usre-data'],
@@ -30,17 +36,16 @@ const Home = () => {
     retry: 0,
   });
 
-  console.log('data', data);
-  console.log('error', error?.message);
-
   useEffect(() => {
-    console.log('data in useeffect', data);
     auth.setWhoiam({
       isAuthenticated: true,
       user: loaderData.body!.user!,
     });
+
+    dispatch(setTasks(loaderData.body?.tasks));
     if (data) {
-      setTasks(data.body?.tasks);
+      // setTasks(data.body?.tasks);
+      dispatch(setTasks(data.body?.tasks));
     }
   }, [data]);
 

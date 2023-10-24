@@ -12,6 +12,9 @@ import { useState } from 'react';
 
 import { action as logouAction } from './components/NavBar/logoutAction';
 import Profile from './components/Profile/Profile';
+import Error from './components/UI/Error/Error';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +26,7 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
         loader: getUserDataLoader,
+        errorElement: <Error />,
       },
       {
         path: 'register',
@@ -49,15 +53,17 @@ const App = () => {
     isAuthenticated: false,
     user: {
       name: '',
-      email: '',
+      email: ' ',
     },
   });
 
   return (
     <QueryClientProvider client={queryClient}>
-      <authContext.Provider value={{ whoiam, setWhoiam }}>
-        <RouterProvider router={router} />
-      </authContext.Provider>
+      <Provider store={store}>
+        <authContext.Provider value={{ whoiam, setWhoiam }}>
+          <RouterProvider router={router} />
+        </authContext.Provider>
+      </Provider>
     </QueryClientProvider>
   );
 };

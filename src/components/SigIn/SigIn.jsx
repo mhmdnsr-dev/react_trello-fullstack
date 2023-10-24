@@ -11,26 +11,43 @@ const SigIn = () => {
 
   async function SignIn(values) {
     setisloading(true);
-    await axios
-      .post(`https://todo-api-dcld.onrender.com/api/user/login`, values, {
-        withCredentials: true,
-      })
-      .then(data => {
-        console.log('Registration successful', data.data);
-        if (data.data.message == 'Added') {
-          setisloading(false);
-        }
-      })
-      .catch(error => {
-        if (error.response) {
-          console.log('Request failed with status code', error.response.status);
-          console.log('Response data', error.response.data);
-        } else if (error.request) {
-          console.log('Request was made but no response was received');
-        } else {
-          console.log('Error in making the request', error.message);
-        }
-      });
+    try {
+      const { status } = await axios
+        .post(`https://todo-api-dcld.onrender.com/api/user/login`, values, {
+          withCredentials: true,
+        })
+        .then(res => {
+          return res;
+        });
+      if (status === 200) return navigate('/');
+    } catch (error) {
+      const {
+        response: {
+          data: {
+            body: { message: errMss },
+          },
+        },
+      } = error;
+      console.log(errMss); // Wrong email or password
+    }
+
+    // .then(data => {
+    //   console.log('Registration successful', data.data);
+    //   if (data.data.message == 'Added') {
+    //     setisloading(false);
+    //     navigate('/');
+    //   }
+    // })
+    // .catch(error => {
+    //   if (error.response) {
+    //     console.log('Request failed with status code', error.response.status);
+    //     console.log('Response data', error.response.data);
+    //   } else if (error.request) {
+    //     console.log('Request was made but no response was received');
+    //   } else {
+    //     console.log('Error in making the request', error.message);
+    //   }
+    // });
   }
 
   const validationSchema = Yup.object({

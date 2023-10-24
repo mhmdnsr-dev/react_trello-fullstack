@@ -37,8 +37,11 @@ const Home = () => {
     console.log('data in useeffect', data);
     auth.setWhoiam({
       isAuthenticated: true,
+      user: loaderData.body!.user!,
     });
-    data && setTasks(data.body?.tasks);
+    if (data) {
+      setTasks(data.body?.tasks);
+    }
   }, [data]);
 
   return (

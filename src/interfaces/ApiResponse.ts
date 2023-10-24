@@ -1,26 +1,13 @@
 import { Task } from './Task';
+import { User } from './User';
 
 export interface ApiResponse {
   status: string;
   body?: {
-    user?: {
-      name: string;
-      email: string;
-      password: string;
-      dateOfBirth?: string;
-      gender?: string;
-      phone?: string;
-    };
+    user?: User;
     tasks?: Task[];
     message?: string;
-    updatedUser?: {
-      name: string;
-      email: string;
-      password: string;
-      dateOfBirth?: string;
-      gender?: string;
-      phone?: string;
-    };
+    updatedUser?: User;
     task?: Task;
     note: string;
   };

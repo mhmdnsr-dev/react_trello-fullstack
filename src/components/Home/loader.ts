@@ -3,8 +3,6 @@ import { queryClient } from '../../utils/http';
 import { ApiResponse } from '../../interfaces/ApiResponse';
 
 export async function loader() {
-  console.log('loder run ');
-
   const res: ApiResponse = await queryClient.fetchQuery({
     queryKey: ['user-data'],
     queryFn: () =>

@@ -61,7 +61,9 @@ const NavBar = () => {
                 </a>
                 <ul className={`dropdown-menu ${styled['drop-down']}`}>
                   <li>
-                    <button className="btn dropdown-item">Profile</button>
+                    <Link className="btn dropdown-item" to={'/profile'}>
+                      Profile
+                    </Link>
                   </li>
                   <li>
                     <Form method="DELETE" action="/">

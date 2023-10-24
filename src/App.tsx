@@ -11,6 +11,7 @@ import { authContext } from './context/authContext';
 import { useState } from 'react';
 
 import { action as logouAction } from './components/NavBar/logoutAction';
+import Profile from './components/Profile/Profile';
 
 const router = createBrowserRouter([
   {
@@ -31,10 +32,10 @@ const router = createBrowserRouter([
         path: 'signin',
         element: <SigIn />,
       },
-      // {
-      //   path:'profile',
-      //   element:<Profile/>
-      // },
+      {
+        path: 'profile',
+        element: <Profile />,
+      },
       {
         path: '*',
         element: <NotFound />,
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
 const App = () => {
   const [whoiam, setWhoiam] = useState({
     isAuthenticated: false,
+    user: {
+      name: '',
+      email: '',
+    },
   });
 
   return (
